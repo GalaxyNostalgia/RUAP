@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Life Expectancy Predictor</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,33 +14,73 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100px); }
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 30px 90px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1);
+            padding: 50px;
+            position: relative;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
             text-align: center;
-            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 10px;
-            font-size: 2.5em;
+            font-size: 3em;
+            font-weight: 700;
+            letter-spacing: -1px;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1em;
+            font-weight: 300;
+            letter-spacing: 1px;
         }
 
         .form-grid {
@@ -55,23 +97,34 @@
 
         label {
             font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-            font-size: 0.9em;
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input, select {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
             font-size: 1em;
-            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fafafa;
+        }
+
+        input:hover {
+            border-color: #d0d0d0;
+            background: white;
         }
 
         input:focus, select:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
         }
 
         .btn-container {
@@ -94,58 +147,121 @@
         .btn-predict {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-predict::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-predict:hover::before {
+            left: 100%;
         }
 
         .btn-predict:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-predict:active {
+            transform: translateY(-1px);
         }
 
         .btn-reset {
-            background: #f5f5f5;
-            color: #333;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            color: #555;
+            border: 2px solid #ddd;
         }
 
         .btn-reset:hover {
-            background: #e0e0e0;
+            background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+            border-color: #ccc;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .result-container {
-            margin-top: 30px;
-            padding: 30px;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 15px;
+            margin-top: 40px;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 25px;
             text-align: center;
             display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.3; }
         }
 
         .result-container.show {
             display: block;
-            animation: slideIn 0.5s ease;
+            animation: slideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(30px) scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
         .result-value {
-            font-size: 3em;
-            font-weight: bold;
-            color: #667eea;
+            font-size: 4.5em;
+            font-weight: 700;
+            color: white;
             margin: 20px 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+            animation: countUp 0.8s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .result-label {
-            font-size: 1.2em;
-            color: #666;
+            font-size: 1em;
+            color: rgba(255,255,255,0.9);
             margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
         }
 
         .loading {
@@ -174,31 +290,50 @@
         }
 
         .info-box {
-            background: #e8f4f8;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            margin-bottom: 35px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s;
+        }
+
+        .info-box:hover {
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            transform: translateX(5px);
         }
 
         .info-box h3 {
             color: #667eea;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.1em;
         }
 
         .info-box ul {
             margin-left: 20px;
-            color: #555;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .info-box ul li {
+            margin-bottom: 5px;
+        }
+
+        .form-grid {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🌍 Life Expectancy Predictor</h1>
-        <p class="subtitle">Powered by Azure Machine Learning</p>
-
         <div class="info-box">
-            <h3>ℹ️ Kako koristiti?</h3>
+            <h3>Upute:</h3>
             <ul>
                 <li>Unesite parametre zdravlja i socioekonomskih faktora</li>
                 <li>Kliknite "Predict Life Expectancy"</li>
@@ -237,8 +372,8 @@
             </div>
 
             <div class="btn-container">
-                <button type="submit" class="btn-predict">🔮 Predict Life Expectancy</button>
-                <button type="reset" class="btn-reset">🔄 Reset Form</button>
+                <button type="submit" class="btn-predict">Predict Life Expectancy</button>
+                <button type="reset" class="btn-reset">Reset Form</button>
             </div>
         </form>
 
@@ -250,15 +385,12 @@
         <div class="result-container" id="resultContainer">
             <p class="result-label">Predicted Life Expectancy</p>
             <div class="result-value" id="resultValue">-- years</div>
-            <p style="color: #666; margin-top: 15px;">
-                Based on machine learning model trained on global health data
-            </p>
+            <div style="margin-top: 20px; font-size: 3em; position: relative; z-index: 1;"></div>
         </div>
     </div>
 
     <script>
-        // ZAMIJENITE OVU URL SA VAŠIM AZURE ENDPOINT-om
-        const API_URL = 'YOUR_AZURE_SCORING_URI_HERE';
+        const API_URL = 'http://localhost:5000/predict';
 
         const FEATURES_ORDER = [
             'HIV/AIDS', 'Income composition of resources',
@@ -274,7 +406,6 @@
                 'Adult Mortality': parseFloat(document.getElementById('adultMortality').value),
                 ' BMI ': parseFloat(document.getElementById('bmi').value),
                 'Schooling': parseFloat(document.getElementById('schooling').value),
-                
             };
 
             const inputArray = FEATURES_ORDER.map(feature => formData[feature]);
@@ -286,23 +417,29 @@
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        data: [inputArray]   
+                        data: inputArray
                     })
                 });
 
-                const result = await response.json();
-
                 document.getElementById('loading').classList.remove('show');
 
-                if (result.status === 'success') {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.prediction) {
                     const prediction = result.prediction.toFixed(1);
                     document.getElementById('resultValue').textContent = `${prediction} years`;
                     document.getElementById('resultContainer').classList.add('show');
-                } else {
+                } else if (result.error) {
                     alert('Error: ' + result.error);
+                } else {
+                    alert('Unexpected response format');
                 }
 
             } catch (error) {

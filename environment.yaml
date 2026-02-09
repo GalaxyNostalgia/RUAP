@@ -1,0 +1,12 @@
+name: life-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - numpy=1.26.4
+  - scikit-learn=1.5.1
+  - joblib=1.4.2
+  - pip=24.0
+  - pip:
+    - azureml-inference-server-http
+    - inference-schema

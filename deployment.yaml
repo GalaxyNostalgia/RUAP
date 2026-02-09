@@ -1,0 +1,16 @@
+name: blue
+endpoint_name: noviprojekt-nzjjj
+type: managed
+model:
+  path: ./life_expectancy_project/models
+environment:
+  conda_file: ./environment.yaml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu22.04
+code_configuration:
+  code: ./life_expectancy_project/src
+  scoring_script: score.py
+instance_type: Standard_F2s_v2
+instance_count: 1
+egress_public_network_access: enabled
+environment_variables:
+  AZUREML_CORS_ORIGINS: "*"
