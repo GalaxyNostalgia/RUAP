@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+.ipynb_aml_chedkpoints/
 .amlignore*
 *.png
 .DS_Store
