@@ -392,20 +392,25 @@
     <script>
         const API_URL = 'http://localhost:5000/predict';
 
+        // IMPORTANT: This order MUST match the training data!
+        // Order from notebook: ['Schooling', 'Income composition of resources', ' BMI ', ' HIV/AIDS', 'Adult Mortality']
         const FEATURES_ORDER = [
-            'HIV/AIDS', 'Income composition of resources',
-            'Adult Mortality', ' BMI ', 'Schooling'   
+            'Schooling',
+            'Income composition of resources',
+            ' BMI ',
+            ' HIV/AIDS',
+            'Adult Mortality'
         ];
 
         document.getElementById('predictionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const formData = {
-                'HIV/AIDS': parseFloat(document.getElementById('hiv').value),
-                'Income composition of resources': parseFloat(document.getElementById('income').value),
-                'Adult Mortality': parseFloat(document.getElementById('adultMortality').value),
-                ' BMI ': parseFloat(document.getElementById('bmi').value),
                 'Schooling': parseFloat(document.getElementById('schooling').value),
+                'Income composition of resources': parseFloat(document.getElementById('income').value),
+                ' BMI ': parseFloat(document.getElementById('bmi').value),
+                ' HIV/AIDS': parseFloat(document.getElementById('hiv').value),
+                'Adult Mortality': parseFloat(document.getElementById('adultMortality').value)
             };
 
             const inputArray = FEATURES_ORDER.map(feature => formData[feature]);

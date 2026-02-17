@@ -3,7 +3,7 @@ from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app) 
 
 AZURE_ENDPOINT = "https://noviprojekt-nzjjj.polandcentral.inference.ml.azure.com/score"
 API_KEY = "D4QF0YSZGHtm0QHpWurNLevzdl0kjT19pl52K5uZBYDOlBmCRDBcJQQJ99CBAAAAAAAAAAAAINFRAZML0IMG"
